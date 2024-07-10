@@ -2,11 +2,15 @@ package com.sqli.auth_gestion_dossiers_medicaux.dto;
 
 import com.sqli.auth_gestion_dossiers_medicaux.model.Role;
 import com.sqli.auth_gestion_dossiers_medicaux.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
 
     private String username;

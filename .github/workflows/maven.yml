@@ -16,13 +16,13 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testdb
+          MYSQL_DATABASE: AuthGestionDossiersMedicaux
         ports:
           - 3306:3306
         options: >-
@@ -69,9 +69,8 @@ jobs:
 
       - name: Run tests with Maven
         env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/testdb
+          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/AuthGestionDossiersMedicaux?createDatabaseIfNotExist=true
           SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
         run: mvn test || true  # Ignore test failures
 
       - name: Build and analyze with SonarQube

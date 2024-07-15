@@ -71,7 +71,6 @@ jobs:
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/AuthGestionDossiersMedicaux?createDatabaseIfNotExist=true
           SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
         run: mvn test || true  # Ignore test failures
 
       - name: Check SonarQube server accessibility

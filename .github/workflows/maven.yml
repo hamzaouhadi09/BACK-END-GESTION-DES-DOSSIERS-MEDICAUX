@@ -16,6 +16,20 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - uses: actions/checkout@v4
@@ -43,10 +57,21 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+      - name: Wait for MySQL to be ready
+        run: |
+          while ! mysqladmin ping -h "127.0.0.1" --silent; do
+            echo 'Waiting for MySQL...'
+            sleep 5
+          done
+
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
       - name: Run tests with Maven
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/testdb
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
         run: mvn test || true  # Ignore test failures
 
       - name: Build and analyze with SonarQube
@@ -54,4 +79,3 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DocMed -Dsonar.projectName='DocMed'
-

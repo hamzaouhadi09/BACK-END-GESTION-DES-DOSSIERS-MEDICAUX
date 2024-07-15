@@ -71,10 +71,19 @@ jobs:
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/AuthGestionDossiersMedicaux?createDatabaseIfNotExist=true
           SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
         run: mvn test || true  # Ignore test failures
+
+      - name: Check SonarQube server accessibility
+        run: |
+          echo "Checking SonarQube server accessibility"
+          if ! curl -s --head  --request GET ${{ secrets.SONAR_HOST_URL }} | grep "200 OK" > /dev/null; then 
+            echo "SonarQube server is not accessible"; 
+            exit 1; 
+          fi
 
       - name: Build and analyze with SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DocMed -Dsonar.projectName='DocMed'
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=DocMed -Dsonar.projectName='DocMed'

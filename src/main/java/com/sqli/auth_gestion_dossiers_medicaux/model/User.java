@@ -40,4 +40,5 @@ public class User {
     @Column(nullable = false)
     private Role role;
   // test commit
+
 }

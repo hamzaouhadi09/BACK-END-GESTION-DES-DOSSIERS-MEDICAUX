@@ -9,9 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -75,5 +79,19 @@ public class UserController {
     public String managerRHPing(){
         return "Any MANAGER_RH Can Read This";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value="/currentRole", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, String>> getCurrentUserRole(Authentication authentication) {
+        String role = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("UNKNOWN");
+        Map<String, String> response = new HashMap<>();
+        response.put("role", role);
+        return ResponseEntity.ok(response);
+        //add comment
+    }
+
 
 }

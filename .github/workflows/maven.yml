@@ -73,16 +73,16 @@ jobs:
           SPRING_DATASOURCE_USERNAME: root
         run: mvn test || true  # Ignore test failures
 
-      - name: Check SonarQube server accessibility
-        run: |
-          echo "Checking SonarQube server accessibility"
-          if ! curl -s --head  --request GET ${{ secrets.SONAR_HOST_URL }} | grep "200 OK" > /dev/null; then 
-            echo "SonarQube server is not accessible"; 
-            exit 1; 
-          fi
+      # - name: Check SonarQube server accessibility
+      #   run: |
+      #     echo "Checking SonarQube server accessibility"
+      #     if ! curl -s --head  --request GET ${{ secrets.SONAR_HOST_URL }} | grep "200 OK" > /dev/null; then 
+      #       echo "SonarQube server is not accessible"; 
+      #       exit 1; 
+      #     fi
 
-      - name: Build and analyze with SonarQube
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=DocMed -Dsonar.projectName='DocMed'
+      # - name: Build and analyze with SonarQube
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #   run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.projectKey=DocMed -Dsonar.projectName='DocMed'

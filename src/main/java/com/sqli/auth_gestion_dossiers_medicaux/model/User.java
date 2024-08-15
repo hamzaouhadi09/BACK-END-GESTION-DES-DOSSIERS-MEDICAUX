@@ -1,10 +1,12 @@
 package com.sqli.auth_gestion_dossiers_medicaux.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,5 +42,12 @@ public class User {
     @Column(nullable = false)
     private Role role;
   // test commit
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Reservation> rservations;
+    @Column(nullable = false)
+    private boolean archived=false;
+
 
 }

@@ -55,4 +55,32 @@ public class UserManagementController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('MANAGER_RH') or hasRole('CHARGE_RH') ")
+    @GetMapping("/Activeusers")
+    public ResponseEntity<List<User>> getAllActivUsers() {
+        List<User> users = userManagementService.getAllActiveUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PreAuthorize("hasRole('MANAGER_RH')")
+    @PutMapping("/users/{id}/archive")
+    public ResponseEntity<Void> archiveUser(@PathVariable Long id) {
+        userManagementService.archiveUser(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PreAuthorize("hasRole('MANAGER_RH')")
+    @GetMapping("/archived-users")
+    public ResponseEntity<List<User>> getArchivedUsers() {
+        List<User> archivedUsers = userManagementService.getArchivedUsers();
+        return ResponseEntity.ok(archivedUsers);
+    }
+
+    @PreAuthorize("hasRole('MANAGER_RH')")
+    @PutMapping("/users/{id}/activate")
+    public ResponseEntity<Void> activateUser(@PathVariable Long id) {
+        userManagementService.activateUser(id);
+        return ResponseEntity.noContent().build();
+}
+
+
 }

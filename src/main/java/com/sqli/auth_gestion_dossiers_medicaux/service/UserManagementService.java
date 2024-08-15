@@ -1,11 +1,15 @@
 package com.sqli.auth_gestion_dossiers_medicaux.service;
 
+import com.sqli.auth_gestion_dossiers_medicaux.dao.ArchivageDao;
 import com.sqli.auth_gestion_dossiers_medicaux.dao.UserDao;
 import com.sqli.auth_gestion_dossiers_medicaux.dto.UserDto;
+import com.sqli.auth_gestion_dossiers_medicaux.model.Archivage;
 import com.sqli.auth_gestion_dossiers_medicaux.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +19,8 @@ public class UserManagementService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private ArchivageDao archivageDao;
 
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
@@ -53,5 +59,39 @@ public class UserManagementService {
     public void deleteUser(Long id) {
         userDao.deleteById(id);
     }
+  //
+
+    public List<User> getAllActiveUsers() {
+        return userDao.findByArchivedFalse();
+    }
+    public List<User> getArchivedUsers() {
+        return userDao.findByArchivedTrue();
+    }
+
+
+    public void activateUser(Long id) {
+        Optional<User> userOpt = userDao.findById(id);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setArchived(false);
+            userDao.save(user);
+}
+    }
+
+    public void archiveUser(Long id) {
+        Optional<User> userOpt = userDao.findById(id);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setArchived(true);  // Mark user as archived
+            userDao.save(user);  // Update user in the database
+            // Save archive details
+            Archivage archivage = new Archivage();
+            archivage.setUser(user);
+            archivage.setDateArchivage(new Date());
+            archivage.setPosteActuel(user.getBusinessTitle());
+            archivageDao.save(archivage);
+        }
+    }
+
 
 }

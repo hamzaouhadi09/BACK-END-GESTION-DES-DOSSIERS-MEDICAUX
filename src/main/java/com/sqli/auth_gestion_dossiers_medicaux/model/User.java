@@ -34,6 +34,8 @@ public class User {
 
     @Column
     private String name;
+    @Column
+    private String BU;
 
     @Column(name = "business_title")
     private String businessTitle;

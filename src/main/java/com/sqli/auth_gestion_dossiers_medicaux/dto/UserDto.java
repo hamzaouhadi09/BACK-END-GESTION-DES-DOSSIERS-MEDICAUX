@@ -23,6 +23,7 @@ public class UserDto {
 
     public User getUserFromDto(){
         User user = new User();
+
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);

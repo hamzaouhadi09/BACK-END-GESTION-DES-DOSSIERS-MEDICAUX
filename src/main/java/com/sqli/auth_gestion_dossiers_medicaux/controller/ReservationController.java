@@ -3,6 +3,8 @@ package com.sqli.auth_gestion_dossiers_medicaux.controller;
 
 import com.sqli.auth_gestion_dossiers_medicaux.dto.ReservationDto;
 import com.sqli.auth_gestion_dossiers_medicaux.model.Reservation;
+import com.sqli.auth_gestion_dossiers_medicaux.model.User;
+import com.sqli.auth_gestion_dossiers_medicaux.service.NotificationService;
 import com.sqli.auth_gestion_dossiers_medicaux.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/reservations")
 public class ReservationController {
-
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private ReservationService reservationService;
 
@@ -24,6 +27,13 @@ public class ReservationController {
     @PostMapping("/create")
     public ResponseEntity<Reservation> createReservation(@RequestBody ReservationDto reservationDto) {
         Reservation newReservation = reservationService.createReservation(reservationDto);
+
+        // Envoyer une notification à l'utilisateur
+        User user = newReservation.getUser();
+        String message = "Bonjour " + user.getUsername() + ", votre rendez-vous aura lieu le "
+                + newReservation.getDate() + " à " + newReservation.getTime() + ".";
+        notificationService.createNotification(user.getId(), message);
+
         return ResponseEntity.ok(newReservation);
     }
 

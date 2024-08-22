@@ -18,7 +18,7 @@ public class ReservationDto {
     private LocalTime time;
     private String type;
     private Long collaborateurId;  // ID of the collaborateur (User) making the reservation
-
+    private User user;
     public Reservation getReservationFromDto(User user) {
         Reservation reservation = new Reservation();
         reservation.setDate(date);

@@ -15,8 +15,8 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reservations")
-public class Reservation {
+@Table(name = "Plannification")
+public class Plannification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

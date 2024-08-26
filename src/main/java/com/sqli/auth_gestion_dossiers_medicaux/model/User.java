@@ -47,7 +47,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-    private List<Reservation> rservations;
+    private List<Plannification> plannifications;
     @Column(nullable = false)
     private boolean archived=false;
 

@@ -45,7 +45,7 @@ public class UserManagementService {
         if (existingUser.isPresent()) {
             User user = existingUser.get();
             user.setUsername(userDto.getUsername());
-            user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+     //       user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
             user.setEmail(userDto.getEmail());
             user.setPhone(userDto.getPhone());
             user.setName(userDto.getName());

@@ -34,8 +34,8 @@ public class User {
 
     @Column
     private String name;
-    @Column
-    private String BU;
+
+   // private String BU;
 
     @Column(name = "business_title")
     private String businessTitle;
@@ -47,7 +47,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-    private List<Reservation> rservations;
+    private List<Plannification> plannifications;
     @Column(nullable = false)
     private boolean archived=false;
 

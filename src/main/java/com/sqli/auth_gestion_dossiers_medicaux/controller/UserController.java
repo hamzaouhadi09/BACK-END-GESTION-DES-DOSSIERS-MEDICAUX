@@ -40,6 +40,8 @@ public class UserController {
         authenticate(userDto.getUsername(), userDto.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
+
+
         return ResponseEntity.ok(token);
     }
 
@@ -91,6 +93,22 @@ public class UserController {
         response.put("role", role);
         return ResponseEntity.ok(response);
         //add comment
+    }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value="/currentUser", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, String>> getCurrentUserDetails(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        String role = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("UNKNOWN");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("username", username);
+        response.put("role", role);
+
+        return ResponseEntity.ok(response);
     }
 
 

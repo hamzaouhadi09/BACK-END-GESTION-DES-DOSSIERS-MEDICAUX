@@ -1,6 +1,7 @@
 package com.sqli.auth_gestion_dossiers_medicaux.dto;
 
 import com.sqli.auth_gestion_dossiers_medicaux.model.Role;
+import com.sqli.auth_gestion_dossiers_medicaux.model.Site;
 import com.sqli.auth_gestion_dossiers_medicaux.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class UserDto {
     private String password;
     private String email;
     private String phone;
+    private String site ;
     private String name;
     private String businessTitle;
     private Role role;
@@ -29,6 +31,7 @@ public class UserDto {
         user.setEmail(email);
         user.setPhone(phone);
         user.setName(name);
+        user.setSite(Site.valueOf(site));
         user.setBusinessTitle(businessTitle);
         user.setRole(role);
         return user;

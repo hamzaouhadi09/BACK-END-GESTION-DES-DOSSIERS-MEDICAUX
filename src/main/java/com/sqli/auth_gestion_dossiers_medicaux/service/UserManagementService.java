@@ -4,6 +4,7 @@ import com.sqli.auth_gestion_dossiers_medicaux.dao.ArchivageDao;
 import com.sqli.auth_gestion_dossiers_medicaux.dao.UserDao;
 import com.sqli.auth_gestion_dossiers_medicaux.dto.UserDto;
 import com.sqli.auth_gestion_dossiers_medicaux.model.Archivage;
+import com.sqli.auth_gestion_dossiers_medicaux.model.Role;
 import com.sqli.auth_gestion_dossiers_medicaux.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -92,6 +93,10 @@ public class UserManagementService {
             archivageDao.save(archivage);
         }
     }
-
+    public List<User> getAllMedecins() {
+        return userDao.findByRole(String.valueOf(Role.MEDECIN));
+    }
 
 }
+
+

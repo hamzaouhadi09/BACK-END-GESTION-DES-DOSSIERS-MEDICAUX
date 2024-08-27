@@ -56,7 +56,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
         Role role = userDto.getRole();
         user.setRole(role);
-        return userDao.save(user);    }
+        return userDao.save(user);
+    }
 
 
     @Override

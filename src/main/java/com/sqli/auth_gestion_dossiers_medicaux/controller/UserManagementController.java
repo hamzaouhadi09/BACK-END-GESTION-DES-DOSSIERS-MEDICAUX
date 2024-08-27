@@ -81,6 +81,10 @@ public class UserManagementController {
         userManagementService.activateUser(id);
         return ResponseEntity.noContent().build();
 }
-
+    @PreAuthorize("hasRole('MANAGER_RH')")
+    @GetMapping("/medecins")
+    public List<User> getAllMedecins() {
+        return userManagementService.getAllMedecins();
+    }
 
 }

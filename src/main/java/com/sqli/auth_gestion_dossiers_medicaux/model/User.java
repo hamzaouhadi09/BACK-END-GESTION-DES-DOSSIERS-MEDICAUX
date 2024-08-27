@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -44,12 +45,16 @@ public class User {
     @Column(nullable = false)
     private Role role;
   // test commit
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Site site;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Plannification> plannifications;
     @Column(nullable = false)
     private boolean archived=false;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Disponibilite> disponibilites = new ArrayList<>();
 
 }

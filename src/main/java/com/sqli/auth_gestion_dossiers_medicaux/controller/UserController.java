@@ -40,15 +40,13 @@ public class UserController {
         authenticate(userDto.getUsername(), userDto.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-
-
         return ResponseEntity.ok(token);
     }
 
-//    @RequestMapping(value="/register", method = RequestMethod.POST)
-//    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) throws Exception {
-//        return ResponseEntity.ok(userService.save(userDto));
-//    }
+  // @RequestMapping(value="/register", method = RequestMethod.POST)
+  //public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) throws Exception {
+   //   return ResponseEntity.ok(userService.save(userDto));
+  // }
 
     private void authenticate(String username, String password) throws Exception {
         try {
@@ -109,6 +107,14 @@ public class UserController {
         response.put("role", role);
 
         return ResponseEntity.ok(response);
+    }
+    @PreAuthorize("hasRole('MANAGER_RH')")
+    @GetMapping("/summary")
+    public Map<String, Long> getUserSummary() {
+        long totalUsers = userService.getTotalUsers();
+        Map<String, Long> response = new HashMap<>();
+        response.put("totalUsers", totalUsers);
+        return response; // Returns a JSON with the total users count
     }
 
 

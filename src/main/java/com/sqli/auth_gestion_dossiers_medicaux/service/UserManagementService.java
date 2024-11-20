@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class UserManagementService {
     }
 
     public List<User> getAllUsers() {
+
         return (List<User>) userDao.findAll();
     }
 
@@ -57,7 +59,11 @@ public class UserManagementService {
         return null;
     }
 
+    @Transactional
     public void deleteUser(Long id) {
+        // Supprimer toutes les entrées d'archivage liées à cet utilisateur
+        archivageDao.deleteByUserId(id);
+        // Ensuite, supprimer l'utilisateur
         userDao.deleteById(id);
     }
   //

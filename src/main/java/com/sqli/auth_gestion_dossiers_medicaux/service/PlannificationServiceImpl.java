@@ -42,7 +42,7 @@ public class PlannificationServiceImpl implements PlannificationService {
     }
 
     @Override
-    public void deleteReservation(Long id) {
+    public void deletePlannification(Long id) {
         plannificationDao.deleteById(id);
     }
 }

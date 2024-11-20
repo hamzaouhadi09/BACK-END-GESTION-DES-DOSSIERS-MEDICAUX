@@ -36,8 +36,12 @@ public class User {
     @Column
     private String name;
 
-   // private String BU;
+    @Column(nullable = false)
+    private boolean Statut=false;
 
+   // private String BU;
+   @Column(nullable = false)
+   private boolean archived=false;
     @Column(name = "business_title")
     private String businessTitle;
 
@@ -45,16 +49,25 @@ public class User {
     @Column(nullable = false)
     private Role role;
   // test commit
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private Site site;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Site site;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Plannification> plannifications;
-    @Column(nullable = false)
-    private boolean archived=false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Disponibilite> disponibilites = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<DemandeVisite> demandes = new ArrayList<>();
+
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Archivage> archivages = new ArrayList<>();
+
+
 }
+

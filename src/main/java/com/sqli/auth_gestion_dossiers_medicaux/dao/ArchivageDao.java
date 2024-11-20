@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArchivageDao extends CrudRepository<Archivage,Long> {
+    void deleteByUserId(Long id);
 }

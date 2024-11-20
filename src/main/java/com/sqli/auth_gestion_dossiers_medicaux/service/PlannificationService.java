@@ -11,5 +11,5 @@ public interface PlannificationService {
     Plannification createPlannifications(PlannificationDto plannificationDto);
     List<Plannification> getAllPlannifications();
     Optional<Plannification> getPlannificationById(Long id);
-    void deleteReservation(Long id);
+    void deletePlannification(Long id);
 }

@@ -34,4 +34,6 @@ public class Plannification {
     @JoinColumn(name = "collaborateur_id", nullable = false)
     @JsonBackReference
     private User user;
+    private String confirmationToken; // Token unique pour confirmation
+    private boolean isConfirmed = false; // Statut de confirmation
 }

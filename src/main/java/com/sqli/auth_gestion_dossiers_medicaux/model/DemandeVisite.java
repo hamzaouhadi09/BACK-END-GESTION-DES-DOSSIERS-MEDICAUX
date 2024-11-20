@@ -1,5 +1,6 @@
 package com.sqli.auth_gestion_dossiers_medicaux.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class DemandeVisite {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user; // Le collaborateur qui fait la demande
 
     @Temporal(TemporalType.TIMESTAMP)

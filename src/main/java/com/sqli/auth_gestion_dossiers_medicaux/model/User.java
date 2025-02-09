@@ -22,6 +22,9 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String username;
+    // ajouter l age
+    @Column(nullable = false)
+    private String Age;
 
     @Column(nullable = false)
     @JsonIgnore
